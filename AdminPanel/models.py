@@ -17,8 +17,6 @@ class Court(models.Model):
     get_court.short_description = 'name'
     get_court.admin_order_field = 'court_id_name'
 
-    
-
 class Jail(models.Model):
     jail_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
@@ -35,7 +33,6 @@ class Jail(models.Model):
     get_jail.short_description = 'name'
     get_jail.admin_order_field = 'jail_id_name'
     
-
 
 class Head_Jailer(models.Model):
     head_jailer_id = models.AutoField(primary_key=True)
@@ -140,7 +137,7 @@ class Prisoner(models.Model):
     police_station = models.CharField(max_length=200)
     privious_records = models.CharField(max_length=20000)
     def __str__(self):
-        return self.prisoner_number
+        return str(self.prisoner_number)
     def get_prisoner_num(self, obj):
         return obj.prisoner_number
     get_prisoner_num.short_description = 'prisoner_number'
@@ -162,6 +159,16 @@ class Doctor(models.Model):
 class Visitor(models.Model):
     visitor_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
+    age = models.IntegerField(default=0)
+    CHOICES = (
+        ("M", "Male"),
+        ("F", "Female"),
+    )
+    gender = models.CharField(
+        max_length=1,
+        choices=CHOICES,
+        default="?"
+    )
     address = models.CharField(max_length=2000)
     picture = models.ImageField(upload_to="images/")
     def get_picture(self):
@@ -170,7 +177,7 @@ class Visitor(models.Model):
     def __str__(self):
         return self.name
 
-class prisoner_herarings(models.Model):
+class prisoner_hearings(models.Model):
     prisoner_hearing_id = models.AutoField(primary_key=True)
     prisoner_id = models.ForeignKey(Prisoner, on_delete=models.CASCADE)
     def get_Prisoner_id(self):
@@ -224,6 +231,28 @@ class prisoner_medications(models.Model):
     def get_jail_incharge_id(self):
         return self.jail_incharge_id
     get_jail_incharge_id.short_description = 'Jail Incharge ID'
+
+class prisoner_hospital_visits(models.Model):
+    prisoner_hospital_visit_id = models.AutoField(primary_key=True)
+    prisoner_id = models.ForeignKey(Prisoner, on_delete=models.CASCADE)
+    def get_Prisoner_id(self):
+        return self.prisoner_id
+    get_Prisoner_id.short_description = 'Prisoner ID'
+    doctor_id = models.ForeignKey(Doctor, on_delete=models.CASCADE)
+    def get_doctor_id(self):
+        return self.doctor_id
+    get_doctor_id.short_description = 'Doctor ID'
+    time_in   = models.DateTimeField() 
+    time_out = models.DateTimeField() 
+    doctor_advise = models.CharField(max_length=200)
+    health_issue = models.CharField(max_length=200)
+    details = models.CharField(max_length=200)
+    hospital = models.CharField(max_length=200)
+    jail_incharge_id = models.ForeignKey(Jailer, on_delete=models.CASCADE)
+    def get_jail_incharge_id(self):
+        return self.jail_incharge_id
+    get_jail_incharge_id.short_description = 'Jail Incharge ID'
+
 
 class prisoner_meetings(models.Model):
     prisoner_meetings_id = models.AutoField(primary_key=True)
@@ -288,7 +317,45 @@ class prisoner_jail_shiftiting(models.Model):
         choices=CHOICES,
         default="?"
     )
-    
 
+class prisoner_complaints(models.Model):
+    complain_id = models.AutoField(primary_key=True)
+    complain_by = models.ForeignKey(Prisoner, on_delete=models.CASCADE)
+    def get_Complain_by(self):
+        return self.complain_by
+    get_Complain_by.short_description = 'Complain By'
+
+    complain_details = models.CharField(max_length=2000)
+    Date_of_complain = models.DateTimeField() 
+    Date_of_complain_reolved = models.DateTimeField() 
+    CHOICES = (
+        ("R", "Resolved"),
+        ("P", "Pending"),
+        ("C", "Canceled"),
+        ("?","Unknown")
+    )
+    status = models.CharField(
+        max_length=1,
+        choices=CHOICES,
+        default="?"
+    )
+    resolved_by = models.ForeignKey(Jailer, on_delete=models.CASCADE)
+    def get_resolved_by(self):
+        return str(self.resolved_by)
+    get_resolved_by.short_description = 'Complaint Resolved BY'
+    def __str__(self):
+        return self.complain_by
+
+class prisoner_earnings(models.Model):
+    earning_id = models.AutoField(primary_key=True)
+    prisoner_id = models.ForeignKey(Prisoner, on_delete=models.CASCADE)
+    def get_Prisoner_id(self):
+        return str(self.prisoner_id)
+    get_Prisoner_id.short_description = 'Prisoner ID'
+    Date = models.DateTimeField()
+    money  = models.IntegerField(default=0)
+    work_details = models.CharField(max_length=2000)
+    def __str__(self):
+        return str(self.prisoner_id)
   
 

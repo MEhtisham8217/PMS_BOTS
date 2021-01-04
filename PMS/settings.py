@@ -24,7 +24,7 @@ SECRET_KEY = '(+4*=t7d2e=)!8ml*c@pinu=f+1+&90e3&2m26#wsql-%lv2vm'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['pms.stacktify.co','www.pms.stacktify.co']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'AdminPanel.apps.AdminpanelConfig',
+
     
 ]
 X_FRAME_OPTIONS='SAMEORIGIN' # only if django version >= 3.0

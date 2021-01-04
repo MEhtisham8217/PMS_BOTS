@@ -4,7 +4,7 @@ from django.contrib import admin
 
 from django.contrib import admin
 
-from .models import Court,Jail,Head_Jailer,Jailer,Prisoner,Doctor,Visitor,prisoner_herarings,prisoner_jail_shiftiting,prisoner_medications,prisoner_meetings
+from .models import Court,Jail,Head_Jailer,Jailer,Prisoner,Doctor,Visitor,prisoner_hearings,prisoner_jail_shiftiting,prisoner_medications,prisoner_meetings,prisoner_complaints,prisoner_earnings,prisoner_hospital_visits
 
 
 class CourtAdmin(admin.ModelAdmin):
@@ -47,13 +47,13 @@ class DoctorAdmin(admin.ModelAdmin):
     readonly_fields = ('get_picture',)
 
 class VisitorAdmin(admin.ModelAdmin):  
-    list_display = ("name","address","get_picture")
+    list_display = ("name","address","age","gender","get_picture")
     search_fields = ("name",)
-    list_filter = ('address',)
+    list_editable = ("age","gender",)
+    list_filter = ('address',"age","gender",)
     readonly_fields = ('get_picture',)
 
 class Prisoner_hearing_Admin(admin.ModelAdmin): 
-    model = prisoner_herarings 
     list_display = ("get_Prisoner_id","get_court_id","time_out","time_in","status","court_orders")
     list_editable = ("status",)
     search_fields = ("Prisoner_id",)
@@ -73,6 +73,20 @@ class prisoner_jail_shiftiting_Admin(admin.ModelAdmin):
     list_editable = ("status",)
     search_fields = ("Prisoner_id",)
 
+class prisoner_complaints_Admin(admin.ModelAdmin):  
+    list_display = ("get_Complain_by","complain_details","Date_of_complain","Date_of_complain_reolved","status","get_resolved_by")
+    list_editable = ("status",)
+    search_fields = ("get_Complain_by",)
+    list_filter = ('complain_by',)
+
+class prisoner_earnings_Admin(admin.ModelAdmin):  
+    list_display = ("get_Prisoner_id","Date","work_details","money")
+    search_fields = ("Prisoner_id",)
+class prisoner_hospital_visits_Admin(admin.ModelAdmin):
+    list_display = ("get_Prisoner_id","get_doctor_id","time_out","time_in","doctor_advise","hospital")
+    search_fields = ("Prisoner_id","hospital",)
+    list_filter = ('hospital',)
+
 
 admin.site.register(Court,CourtAdmin)
 admin.site.register(Jail,JailAdmin)
@@ -81,8 +95,11 @@ admin.site.register(Doctor,DoctorAdmin)
 admin.site.register(Jailer,JailerAdmin)
 admin.site.register(Prisoner,PrisonerAdmin)
 admin.site.register(Visitor,VisitorAdmin)
-admin.site.register(prisoner_herarings,Prisoner_hearing_Admin)
+admin.site.register(prisoner_hearings,Prisoner_hearing_Admin)
 admin.site.register(prisoner_medications,Prisoner_medication_Admin)
 admin.site.register(prisoner_meetings,Prisoner_meetings_Admin)
 admin.site.register(prisoner_jail_shiftiting,prisoner_jail_shiftiting_Admin)
+admin.site.register(prisoner_complaints,prisoner_complaints_Admin)
+admin.site.register(prisoner_earnings,prisoner_earnings_Admin)
+admin.site.register(prisoner_hospital_visits,prisoner_hospital_visits_Admin)
 
