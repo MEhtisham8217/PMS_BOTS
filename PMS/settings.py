@@ -24,7 +24,7 @@ SECRET_KEY = '(+4*=t7d2e=)!8ml*c@pinu=f+1+&90e3&2m26#wsql-%lv2vm'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["pmsbots.herokuapp.com","www.pmsbots.herokuapp.com"]
 
 
 # Application definition
